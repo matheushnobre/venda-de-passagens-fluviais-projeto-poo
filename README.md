@@ -1,2 +1,2 @@
-# venda-de-passagens-fluviais-projeto-poo
-Este repositório está sendo utilizado para armazenar o código-fonte de um projeto elaborado como requisito para obtenção de nota na disciplina de Programação Orientada à Objetos do curso Engenharia de Software do IFAM campus Parintins. Foco do projeto: sistema desktop para venda de passagens fluviais voltado ao vendedor.
+Este é um projeto desenvolvido para obtenção de nota na disciplina de Programação Orientada a Objetos (POO) do IFAM campus Parintins.
+Foco do projeto: desenvolvimento de um sistema desktop para venda de passagens fluviais no Amazonas, especialmente Parintins, voltado para o lado da empresa vendedora de passagens.
