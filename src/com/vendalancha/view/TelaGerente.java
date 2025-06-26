@@ -8,6 +8,7 @@ import com.vendalancha.view.cadastro.TelaCadastroVendedor;
 import com.vendalancha.model.Gerente;
 import com.vendalancha.view.cadastro.TelaCadastroBarco;
 import com.vendalancha.view.cadastro.TelaCadastroLancha;
+import com.vendalancha.view.cadastro.TelaCadastroViagem;
 import javax.swing.JFrame;
 
 /**
@@ -175,6 +176,11 @@ public class TelaGerente extends javax.swing.JFrame {
 
         mi_cadastrarViagem.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
         mi_cadastrarViagem.setText("Cadastrar");
+        mi_cadastrarViagem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mi_cadastrarViagemActionPerformed(evt);
+            }
+        });
         mn_viagem.add(mi_cadastrarViagem);
 
         mi_visualizarViagens.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
@@ -299,6 +305,11 @@ public class TelaGerente extends javax.swing.JFrame {
         // TODO add your handling code here:
         new TelaExibicaoLanchas().setVisible(true);
     }//GEN-LAST:event_mi_visualizarLanchasActionPerformed
+
+    private void mi_cadastrarViagemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_cadastrarViagemActionPerformed
+        // TODO add your handling code here:
+        new TelaCadastroViagem().setVisible(true);
+    }//GEN-LAST:event_mi_cadastrarViagemActionPerformed
 
     /**
      * @param args the command line arguments
