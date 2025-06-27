@@ -10,6 +10,7 @@ import com.vendalancha.util.validacao.ValidacaoEntrada;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class RotaViagemController {
     public static int cadastrarRota(String cidadeOrigem, String cidadeDestino, String nome_embarcacao, 
@@ -47,7 +48,7 @@ public class RotaViagemController {
         if(!ValidacaoEntrada.isNotNegative(precoIndividual, precoColetiva)) return 7;
         
         // horario de partida nao deve ser inferior ao horario atual
-        LocalDateTime horarioPartida = ConversorData.converterParaLocalDateTime(str_data, str_horaPartida);
+        LocalDateTime horarioPartida = ConversorData.strParaLocalDateTime(str_data, str_horaPartida);
         if(horarioPartida.isBefore(LocalDateTime.now(ZoneId.of("America/Manaus")))) return 8;
         
         // criando rota
@@ -66,5 +67,30 @@ public class RotaViagemController {
         }
                 
         return 1;
+    }
+    
+    public static int isPossivelCarregarRotas(String origem, String destino, String str_data){
+        /*
+        Códigos de retorno:
+        1 - sim, é possível
+        2 - campos incompletos
+        3 - data inválida
+        */
+        
+        if(!ValidacaoEntrada.validarInsercaoObrigatoria(origem, destino, str_data)) return 2;
+        if(!ValidacaoEntrada.validarData(str_data)) return 3;
+        return 1;
+    }
+    
+    public static ArrayList<RotaViagem> carregarRotas(String origem, String destino, String str_data){
+        ArrayList<RotaViagem> rotas = new ArrayList<>();
+        try{
+            String sql_data = ConversorData.strParaSQL(str_data);
+            rotas = RotaViagemDAO.carregarRotas(origem, destino, sql_data);
+        } catch(SQLException e){
+            e.printStackTrace();
+            return null;
+        }
+        return rotas;
     }
 }

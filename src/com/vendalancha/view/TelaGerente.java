@@ -199,6 +199,11 @@ public class TelaGerente extends javax.swing.JFrame {
 
         mi_venderPassagem.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
         mi_venderPassagem.setText("Passagem");
+        mi_venderPassagem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mi_venderPassagemActionPerformed(evt);
+            }
+        });
         mn_vender.add(mi_venderPassagem);
 
         jMenuBar1.add(mn_vender);
@@ -310,6 +315,11 @@ public class TelaGerente extends javax.swing.JFrame {
         // TODO add your handling code here:
         new TelaCadastroViagem().setVisible(true);
     }//GEN-LAST:event_mi_cadastrarViagemActionPerformed
+
+    private void mi_venderPassagemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_venderPassagemActionPerformed
+        // TODO add your handling code here:
+        new TelaBuscaViagem().setVisible(true);
+    }//GEN-LAST:event_mi_venderPassagemActionPerformed
 
     /**
      * @param args the command line arguments

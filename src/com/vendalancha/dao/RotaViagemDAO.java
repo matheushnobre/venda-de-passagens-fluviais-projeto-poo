@@ -2,11 +2,16 @@ package com.vendalancha.dao;
 
 import com.vendalancha.db.Conexao;
 import com.vendalancha.model.Barco;
+import com.vendalancha.model.Embarcacao;
+import com.vendalancha.model.Lancha;
 import com.vendalancha.model.RotaViagem;
 import com.vendalancha.util.ConversorData;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.sql.ResultSet;
+import java.time.LocalDateTime;
 
 public class RotaViagemDAO {
     public static void deletarTabela(){
@@ -59,12 +64,47 @@ public class RotaViagemDAO {
             PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, r.getCidadeOrigem());
             stmt.setString(2, r.getCidadeDestino());
-            stmt.setString(3, ConversorData.converterParaStringSQL(r.getHorarioPartida()));
+            stmt.setString(3, ConversorData.localDateTimeParaStrSQL(r.getHorarioPartida()));
             stmt.setInt(4, r.getDuracaoMinutos());
             stmt.setDouble(5, r.getPrecoAcomodacaoIndividual());
             stmt.setDouble(6, r.getPrecoAcomodacaoColetiva());
             stmt.setString(7, r.getEmbarcacao().getNome());
             stmt.execute();
         } 
+    }
+    
+    public static ArrayList<RotaViagem> carregarRotas(String origem, String destino, String str_data) throws SQLException{
+        ArrayList<RotaViagem> rotas = new ArrayList<>();
+        String sql = "SELECT * FROM RotaViagem WHERE cidade_origem = ? AND cidade_destino = ? AND horario_partida >= ? AND horario_partida <= ? ORDER BY horario_partida ASC";
+        System.out.println("Rotas");
+        try(Connection conn = Conexao.conectar();
+                PreparedStatement stmt = conn.prepareStatement(sql)){
+            stmt.setString(1, origem);
+            stmt.setString(2, destino);
+            stmt.setString(3, str_data + " 00:00:00");
+            stmt.setString(4, str_data + " 23:59:59");
+            
+            ResultSet resultado = stmt.executeQuery();
+            while(resultado.next()){
+                int id = resultado.getInt("id");
+                String cidade_origem = resultado.getString("cidade_origem");
+                String cidade_destino = resultado.getString("cidade_destino");
+                LocalDateTime horarioPartida = ConversorData.strDateTimeParaLocalDateTime(resultado.getString("horario_partida"));
+                int duracaoMinutos = resultado.getInt("duracaoMinutos");
+                Barco barcoVinculado = BarcoDAO.buscarBarco(resultado.getString("barcoVinculado"));
+                Lancha lanchaVinculada = LanchaDAO.buscarLancha(resultado.getString("lanchaVinculada"));
+                double precoIndividual = resultado.getDouble("precoAcomodacaoIndividual");
+                double precoColetiva = resultado.getDouble("precoAcomodacaoColetiva");
+                
+                Embarcacao embarcacao;
+                if(barcoVinculado == null) embarcacao = lanchaVinculada;
+                else embarcacao = barcoVinculado;
+                
+                RotaViagem rota = new RotaViagem(id, cidade_origem, cidade_destino, horarioPartida, duracaoMinutos, embarcacao, precoIndividual, precoColetiva);
+                rotas.add(rota);
+                System.out.println(rota);
+            }
+        }
+        return rotas;
     }
 }
