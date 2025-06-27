@@ -44,6 +44,23 @@ public class LanchaDAO {
         } 
     }
     
+    public static Lancha buscarLancha(String n) throws SQLException{
+        String sql = "SELECT * FROM lancha WHERE nome_embarcacao = (?)";
+        try(Connection conn = Conexao.conectar();
+            PreparedStatement stmt = conn.prepareStatement(sql)){
+            stmt.setString(1, n);
+            ResultSet consulta = stmt.executeQuery();
+            
+            if(consulta.next()){
+                String nome = consulta.getString("nome_embarcacao");
+                int nPoltronas = consulta.getInt("nPoltronas");
+                return new Lancha(nome, nPoltronas);
+            }
+        }
+        
+        return null;
+    }
+    
     public static boolean existe(String nome) throws SQLException{
         String sql = "SELECT * FROM lancha WHERE nome_embarcacao = (?)";
         try (Connection conn = Conexao.conectar();
@@ -60,6 +77,29 @@ public class LanchaDAO {
         String sql = "SELECT * FROM lancha";
         try (Connection conn = Conexao.conectar()){
             PreparedStatement stmt = conn.prepareStatement(sql);
+            ResultSet consulta = stmt.executeQuery();
+            
+            while(consulta.next()){
+                String nome = consulta.getString("nome_embarcacao");
+                int nPoltronas = consulta.getInt("nPoltronas");
+                lista.add(new Lancha(nome, nPoltronas));
+            }
+                        
+        } catch(SQLException e){
+            e.printStackTrace();
+        }
+        
+        lista.sort(Comparator.comparing(Lancha::getNome, String.CASE_INSENSITIVE_ORDER));
+        return lista;
+    }
+    
+    public static ArrayList<Lancha> carregarEmbarcacoesPorNome(String n){
+        System.out.println("N = "+n);
+        ArrayList<Lancha> lista = new ArrayList<>();
+        String sql = "SELECT * FROM lancha WHERE nome_embarcacao LIKE (?)";
+        try (Connection conn = Conexao.conectar()){
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, n+"%");
             ResultSet consulta = stmt.executeQuery();
             
             while(consulta.next()){

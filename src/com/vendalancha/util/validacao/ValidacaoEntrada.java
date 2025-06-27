@@ -1,5 +1,10 @@
 package com.vendalancha.util.validacao;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+
 public class ValidacaoEntrada {
     
     public static boolean validarInsercaoObrigatoria(String... valores){
@@ -45,4 +50,25 @@ public class ValidacaoEntrada {
         return true;
     }
     
+    public static boolean validarData(String data){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        try {
+            LocalDate.parse(data, formatter);
+            return true;
+        } catch (DateTimeParseException e) {
+            return false;
+        }
+    }
+    
+    public static boolean validarHorario(String horario){
+        if (horario == null || horario.length() != 5) return false;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+
+        try {
+            LocalTime.parse(horario, formatter);
+            return true;
+        } catch (DateTimeParseException e) {
+            return false;
+        }
+    }
 }

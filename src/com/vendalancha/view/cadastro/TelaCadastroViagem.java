@@ -4,13 +4,16 @@
  */
 package com.vendalancha.view.cadastro;
 
+import com.vendalancha.control.RotaViagemController;
 import com.vendalancha.dao.BarcoDAO;
 import com.vendalancha.dao.LanchaDAO;
 import com.vendalancha.model.Barco;
 import com.vendalancha.model.Lancha;
+import com.vendalancha.util.IconeUtil;
 import java.awt.Color;
 import java.awt.Font;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
@@ -44,25 +47,27 @@ public class TelaCadastroViagem extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         tf_origem = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        tf_origem1 = new javax.swing.JTextField();
+        tf_destino = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jt_tabelaEmbarcacoes = new javax.swing.JTable();
         jLabel5 = new javax.swing.JLabel();
-        jFormattedTextField1 = new javax.swing.JFormattedTextField();
         jLabel6 = new javax.swing.JLabel();
-        jFormattedTextField2 = new javax.swing.JFormattedTextField();
+        tf_data = new javax.swing.JFormattedTextField();
         jLabel7 = new javax.swing.JLabel();
-        jFormattedTextField3 = new javax.swing.JFormattedTextField();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        jFormattedTextField4 = new javax.swing.JFormattedTextField();
         jLabel10 = new javax.swing.JLabel();
-        jFormattedTextField5 = new javax.swing.JFormattedTextField();
-        jTextField1 = new javax.swing.JTextField();
+        tf_embarcacaoPesquisa = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        jButton3 = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btn_pesquisarEmbarcacao = new javax.swing.JButton();
+        tf_dhoras = new javax.swing.JTextField();
+        tf_dminutos = new javax.swing.JTextField();
+        tf_precoIndividual = new javax.swing.JTextField();
+        tf_precoColetiva = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
+        tf_hora = new javax.swing.JFormattedTextField();
+        btn_voltar = new javax.swing.JButton();
+        btn_cadastrar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setUndecorated(true);
@@ -81,7 +86,7 @@ public class TelaCadastroViagem extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
         jLabel3.setText("Cidade de destino:");
 
-        tf_origem1.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
+        tf_destino.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
 
         jScrollPane1.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
 
@@ -110,20 +115,14 @@ public class TelaCadastroViagem extends javax.swing.JFrame {
         jLabel5.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
         jLabel5.setText("Duração:");
 
-        jFormattedTextField1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
-        jFormattedTextField1.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
-
         jLabel6.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
         jLabel6.setText("Data (dd/mm/aaaa):");
 
-        jFormattedTextField2.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.SHORT))));
-        jFormattedTextField2.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
+        tf_data.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.SHORT))));
+        tf_data.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
 
         jLabel7.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
         jLabel7.setText("h");
-
-        jFormattedTextField3.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
-        jFormattedTextField3.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
 
         jLabel8.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
         jLabel8.setText("min");
@@ -131,21 +130,39 @@ public class TelaCadastroViagem extends javax.swing.JFrame {
         jLabel9.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
         jLabel9.setText("Acomodação individual (rede ou poltrona): R$");
 
-        jFormattedTextField4.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
-        jFormattedTextField4.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
-
         jLabel10.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
         jLabel10.setText("Acomodação coletiva (camarote): R$");
 
-        jFormattedTextField5.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
-        jFormattedTextField5.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
-
-        jTextField1.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
+        tf_embarcacaoPesquisa.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
 
         jLabel4.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
         jLabel4.setText("Embarcação:");
 
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/vendalancha/imagens/search15.png"))); // NOI18N
+        btn_pesquisarEmbarcacao.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/vendalancha/imagens/search15.png"))); // NOI18N
+        btn_pesquisarEmbarcacao.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_pesquisarEmbarcacaoActionPerformed(evt);
+            }
+        });
+
+        tf_dhoras.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
+
+        tf_dminutos.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
+        tf_dminutos.setText("0");
+
+        tf_precoIndividual.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
+
+        tf_precoColetiva.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
+
+        jLabel11.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
+        jLabel11.setText("Horário de partida (hh:mm)");
+
+        try {
+            tf_hora.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##:##")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        tf_hora.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -153,142 +170,213 @@ public class TelaCadastroViagem extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(22, 22, 22)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 589, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane1)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(tf_embarcacaoPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(tf_origem, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(tf_destino, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(2, 2, 2)
+                        .addComponent(btn_pesquisarEmbarcacao)
+                        .addGap(39, 39, 39)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(4, 4, 4)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel10)
-                                    .addComponent(jLabel9))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jFormattedTextField5, javax.swing.GroupLayout.DEFAULT_SIZE, 74, Short.MAX_VALUE)
-                                    .addComponent(jFormattedTextField4)))
+                                .addComponent(jLabel5)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(tf_dhoras, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel7)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(tf_dminutos, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel8))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 201, Short.MAX_VALUE)
-                                    .addComponent(tf_origem)
-                                    .addComponent(tf_origem1))
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGap(18, 18, 18)
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addComponent(jLabel6)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(jFormattedTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addComponent(jLabel5)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 7, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(jFormattedTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(jLabel8))))
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGap(2, 2, 2)
-                                        .addComponent(jButton3)))))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                                .addComponent(jLabel11)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(tf_hora, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel6)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(tf_data, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(4, 4, 4)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel10)
+                            .addComponent(jLabel9))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(tf_precoIndividual, javax.swing.GroupLayout.DEFAULT_SIZE, 78, Short.MAX_VALUE)
+                            .addComponent(tf_precoColetiva))))
                 .addContainerGap(27, Short.MAX_VALUE))
         );
-
-        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jFormattedTextField4, jFormattedTextField5});
-
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(13, 13, 13)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(tf_origem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6)
-                    .addComponent(jFormattedTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(tf_origem1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5)
-                    .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel7)
-                    .addComponent(jFormattedTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel8))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel4)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jButton3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 161, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jFormattedTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel9))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(13, 13, 13)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(tf_origem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel6)
+                            .addComponent(tf_data, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(tf_destino, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel11)
+                            .addComponent(tf_hora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel4)
+                                .addComponent(tf_embarcacaoPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel5)
+                                    .addComponent(tf_dhoras, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel7)
+                                    .addComponent(tf_dminutos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel8))
+                                .addComponent(btn_pesquisarEmbarcacao)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel9))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(tf_precoIndividual, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
-                    .addComponent(jFormattedTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18))
+                    .addComponent(tf_precoColetiva, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(22, 22, 22))
         );
 
-        jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {tf_origem, tf_origem1});
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {tf_destino, tf_origem});
 
-        jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jFormattedTextField4, jFormattedTextField5});
+        btn_voltar.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
+        btn_voltar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/vendalancha/imagens/not-ok24.png"))); // NOI18N
+        btn_voltar.setText("Voltar");
+        btn_voltar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_voltarActionPerformed(evt);
+            }
+        });
 
-        jButton1.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/vendalancha/imagens/not-ok24.png"))); // NOI18N
-        jButton1.setText("Voltar");
-
-        jButton2.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/vendalancha/imagens/ok24.png"))); // NOI18N
-        jButton2.setText("Cadastrar");
+        btn_cadastrar.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
+        btn_cadastrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/vendalancha/imagens/ok24.png"))); // NOI18N
+        btn_cadastrar.setText("Cadastrar");
+        btn_cadastrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_cadastrarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 197, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(220, 220, 220))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(76, 76, 76)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(271, 271, 271)
+                        .addComponent(btn_voltar)
+                        .addGap(79, 79, 79)
+                        .addComponent(btn_cadastrar))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(226, 226, 226)
-                        .addComponent(jButton1)
-                        .addGap(85, 85, 85)
-                        .addComponent(jButton2)))
-                .addContainerGap(48, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addGap(198, 198, 198))
+                        .addGap(52, 52, 52)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(26, 26, 26)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
-                .addContainerGap(39, Short.MAX_VALUE))
+                    .addComponent(btn_voltar)
+                    .addComponent(btn_cadastrar))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btn_voltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_voltarActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_btn_voltarActionPerformed
+
+    private void btn_pesquisarEmbarcacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_pesquisarEmbarcacaoActionPerformed
+        // TODO add your handling code here:
+        String nomePesquisa = tf_embarcacaoPesquisa.getText();
+        carregarDadosPorPesquisa(nomePesquisa);
+    }//GEN-LAST:event_btn_pesquisarEmbarcacaoActionPerformed
+
+    private void btn_cadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cadastrarActionPerformed
+        // TODO add your handling code here:
+        String cidadeOrigem = tf_origem.getText();
+        String cidadeDestino = tf_destino.getText();
+        String str_data = tf_data.getText();
+        String str_horas = tf_dhoras.getText();
+        String str_minutos = tf_dminutos.getText();
+        String str_horaPartida = tf_hora.getText();
+        String str_precoIndividual = tf_precoIndividual.getText();
+        String str_precoColetiva = tf_precoColetiva.getText();
+        String embarcacao = "";
+        int linha = jt_tabelaEmbarcacoes.getSelectedRow();
+        if(linha >= 0)
+            embarcacao = jt_tabelaEmbarcacoes.getValueAt(linha, 0).toString();
+        
+        int mensagem = RotaViagemController.cadastrarRota(cidadeOrigem, cidadeDestino, embarcacao, str_data, str_horaPartida, str_horas, str_minutos, str_precoIndividual, str_precoColetiva);
+        switch(mensagem){
+            case 1 -> {
+                JOptionPane.showMessageDialog(rootPane, String.format("Rota de %s para %s cadastrada com sucesso!", cidadeOrigem, cidadeDestino), "Cadastro OK", JOptionPane.INFORMATION_MESSAGE, IconeUtil.getIconeSucesso());
+                this.dispose();
+            }
+            case 2 -> {
+                JOptionPane.showMessageDialog(rootPane, "Por favor, selecione uma embarcação.", "Erro: campos incompletos", JOptionPane.ERROR_MESSAGE, IconeUtil.getIconeErro());
+            }
+            case 3 -> {
+                JOptionPane.showMessageDialog(rootPane, "Preencha todos os campos.", "Erro: campos incompletos", JOptionPane.ERROR_MESSAGE, IconeUtil.getIconeErro());
+            }
+            case 4 -> {
+                tf_data.setText("");
+                JOptionPane.showMessageDialog(rootPane, "Data deve estar no formato (dd/mm/aaaa) e deve ser uma data válida.", "Erro: data inválida", JOptionPane.ERROR_MESSAGE, IconeUtil.getIconeErro());
+            }
+            case 5 -> {
+                JOptionPane.showMessageDialog(rootPane, "Horário de partida deve ser um valor válido.", "Erro: campos inválidos", JOptionPane.ERROR_MESSAGE, IconeUtil.getIconeErro());
+            }
+            case 6 -> {
+                JOptionPane.showMessageDialog(rootPane, "Duração em horas e/ou minutos deve ser número inteiros não negativos.\nMinutos devem estar no intervalo [0, 59].", "Erro: campos inválidos", JOptionPane.ERROR_MESSAGE, IconeUtil.getIconeErro());
+            }
+            case 7 -> {
+                JOptionPane.showMessageDialog(rootPane, "Preços devem ser valores númericos não negativos.", "Erro: campos inválidos", JOptionPane.ERROR_MESSAGE, IconeUtil.getIconeErro());   
+            }
+            case 8 -> {
+                JOptionPane.showMessageDialog(rootPane, "Data e horário de partida já passaram.", "Erro: campos inválidos", JOptionPane.ERROR_MESSAGE, IconeUtil.getIconeErro());   
+            }
+            case 9 ->{
+                JOptionPane.showMessageDialog(rootPane, "Um erro inesperado aconteceu.", "Erro", JOptionPane.ERROR_MESSAGE, IconeUtil.getIconeErro());                  
+            }
+        }
+        
+    }//GEN-LAST:event_btn_cadastrarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -326,16 +414,12 @@ public class TelaCadastroViagem extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JFormattedTextField jFormattedTextField1;
-    private javax.swing.JFormattedTextField jFormattedTextField2;
-    private javax.swing.JFormattedTextField jFormattedTextField3;
-    private javax.swing.JFormattedTextField jFormattedTextField4;
-    private javax.swing.JFormattedTextField jFormattedTextField5;
+    private javax.swing.JButton btn_cadastrar;
+    private javax.swing.JButton btn_pesquisarEmbarcacao;
+    private javax.swing.JButton btn_voltar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -346,10 +430,16 @@ public class TelaCadastroViagem extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTable jt_tabelaEmbarcacoes;
+    private javax.swing.JFormattedTextField tf_data;
+    private javax.swing.JTextField tf_destino;
+    private javax.swing.JTextField tf_dhoras;
+    private javax.swing.JTextField tf_dminutos;
+    private javax.swing.JTextField tf_embarcacaoPesquisa;
+    private javax.swing.JFormattedTextField tf_hora;
     private javax.swing.JTextField tf_origem;
-    private javax.swing.JTextField tf_origem1;
+    private javax.swing.JTextField tf_precoColetiva;
+    private javax.swing.JTextField tf_precoIndividual;
     // End of variables declaration//GEN-END:variables
     
     private void estilizarHeader(){
@@ -359,10 +449,28 @@ public class TelaCadastroViagem extends javax.swing.JFrame {
         header.setForeground(Color.BLACK);
     }
     
+    private void carregarDadosPorPesquisa(String nome){
+        ArrayList<Barco> barcos = BarcoDAO.carregarEmbarcacoesPorNome(nome);
+        ArrayList<Lancha> lanchas = LanchaDAO.carregarEmbarcacoesPorNome(nome);
+        
+        if(barcos.isEmpty() && lanchas.isEmpty()){
+            JOptionPane.showMessageDialog(rootPane, "Nenhuma embarcação encontrada.", "Erro", JOptionPane.INFORMATION_MESSAGE, IconeUtil.getIconeErro());
+            tf_embarcacaoPesquisa.setText("");
+            carregarDados();
+            return;
+        }
+        
+        atualizarTabela(barcos, lanchas);
+    }
+    
     private void carregarDados(){
         ArrayList<Barco> barcos = BarcoDAO.carregarEmbarcacoes();
         ArrayList<Lancha> lanchas = LanchaDAO.carregarEmbarcacoes();
         
+        atualizarTabela(barcos, lanchas);
+    }
+    
+    private void atualizarTabela(ArrayList<Barco> barcos, ArrayList<Lancha> lanchas){
         DefaultTableModel modelo = new DefaultTableModel() {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -384,7 +492,6 @@ public class TelaCadastroViagem extends javax.swing.JFrame {
         }
     
         jt_tabelaEmbarcacoes.setModel(modelo);
-        
     }
 
 }

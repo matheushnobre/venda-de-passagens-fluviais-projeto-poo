@@ -48,6 +48,25 @@ public class BarcoDAO {
         } 
     }
     
+    public static Barco buscarBarco(String n) throws SQLException{
+        String sql = "SELECT * FROM barco WHERE nome_embarcacao = (?)";
+        try(Connection conn = Conexao.conectar();
+            PreparedStatement stmt = conn.prepareStatement(sql)){
+            stmt.setString(1, n);
+            ResultSet consulta = stmt.executeQuery();
+            
+            if(consulta.next()){
+                String nome = consulta.getString("nome_embarcacao");
+                int nRedes = consulta.getInt("nRedes");
+                int nCamarotes = consulta.getInt("nCamarotes");
+                int nAndares = consulta.getInt("nAndares");
+                return new Barco(nome, nRedes, nCamarotes, nAndares);
+            }
+        }
+        
+        return null;
+    }
+    
     public static boolean existeBarco(String nome) throws SQLException{
         String sql = "SELECT * FROM barco WHERE nome_embarcacao = (?)";
         try(Connection conn = Conexao.conectar();
@@ -64,6 +83,30 @@ public class BarcoDAO {
         String sql = "SELECT * FROM barco";
         try (Connection conn = Conexao.conectar()){
             PreparedStatement stmt = conn.prepareStatement(sql);
+            ResultSet consulta = stmt.executeQuery();
+            
+            while(consulta.next()){
+                String nome = consulta.getString("nome_embarcacao");
+                int nRedes = consulta.getInt("nRedes");
+                int nCamarotes = consulta.getInt("nCamarotes");
+                int nAndares = consulta.getInt("nAndares");
+                lista.add(new Barco(nome, nRedes, nCamarotes, nAndares));
+            }
+                        
+        } catch(SQLException e){
+            e.printStackTrace();
+        }
+        
+        lista.sort(Comparator.comparing(Barco::getNome, String.CASE_INSENSITIVE_ORDER));
+        return lista;
+    }
+    
+    public static ArrayList<Barco> carregarEmbarcacoesPorNome(String n){
+        ArrayList<Barco> lista = new ArrayList<>();
+        String sql = "SELECT * FROM barco WHERE nome_embarcacao LIKE ?";
+        try (Connection conn = Conexao.conectar()){
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, n + "%");
             ResultSet consulta = stmt.executeQuery();
             
             while(consulta.next()){
