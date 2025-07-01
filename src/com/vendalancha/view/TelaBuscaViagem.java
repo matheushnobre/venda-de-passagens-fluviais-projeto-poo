@@ -342,9 +342,9 @@ public class TelaBuscaViagem extends javax.swing.JFrame {
                 r.getId(),
                 r.getEmbarcacao().getNome(),
                 ConversorData.strDateTimeParaStrHora(r.getHorarioPartida()),
-                "x",
+                RotaViagemController.verificarDisponibilidadeIndividual(r.getId()),
                 String.format("%.2f", r.getPrecoAcomodacaoIndividual()),
-                "x",
+                RotaViagemController.verificarDisponibilidadeColetiva(r.getId()),
                 String.format("%.2f", r.getPrecoAcomodacaoColetiva())
             });
         }

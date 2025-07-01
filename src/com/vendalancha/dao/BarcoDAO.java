@@ -157,4 +157,32 @@ public class BarcoDAO {
             e.printStackTrace();
         }
     }
+    
+    public static int getNRedes(String nome) throws SQLException{
+        String sql = "SELECT nRedes FROM barco WHERE nome_embarcacao = ?";
+        try(Connection conn = Conexao.conectar()){
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, nome);
+            ResultSet resultado = stmt.executeQuery();
+            if(resultado.next()) 
+               return resultado.getInt(1);
+        } catch(SQLException e){
+            e.printStackTrace();
+        }
+        return -1;
+    }
+    
+    public static int getNCamarotes(String nome) throws SQLException{
+        String sql = "SELECT nCamarotes FROM barco WHERE nome_embarcacao = ?";
+        try(Connection conn = Conexao.conectar()){
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, nome);
+            ResultSet resultado = stmt.executeQuery();
+            if(resultado.next()) 
+               return resultado.getInt(1);
+        } catch(SQLException e){
+            e.printStackTrace();
+        }
+        return -1;
+    }
 }

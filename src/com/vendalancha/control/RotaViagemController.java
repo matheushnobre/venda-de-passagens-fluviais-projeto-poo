@@ -93,4 +93,24 @@ public class RotaViagemController {
         }
         return rotas;
     }
+    
+    public static int verificarDisponibilidadeIndividual(int idRota){
+        int retorno = -1;
+        try{
+            retorno = RotaViagemDAO.verificarDisponibilidadeIndividual(idRota);
+        } catch(SQLException e){
+            e.printStackTrace();
+        }
+        return retorno;
+    }
+    
+    public static int verificarDisponibilidadeColetiva(int idRota){
+        int retorno = -1;
+        try{
+            retorno = RotaViagemDAO.verificarDisponibilidadeColetiva(idRota);
+        } catch(SQLException e){
+            e.printStackTrace();
+        }
+        return retorno;
+    }
 }

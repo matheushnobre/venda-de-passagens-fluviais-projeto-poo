@@ -107,4 +107,76 @@ public class RotaViagemDAO {
         }
         return rotas;
     }
+    
+    public static int verificarDisponibilidadeIndividual(int idRota) throws SQLException{
+        int retorno = 0;
+ 
+        String barcoVinculado = verificarBarcoVinculado(idRota);
+        String lanchaVinculada = verificarLanchaVinculada(idRota);
+        
+        if(barcoVinculado != null){
+            retorno = BarcoDAO.getNRedes(barcoVinculado);
+        } else{
+            retorno = LanchaDAO.getNPoltronas(lanchaVinculada);
+        }
+           
+        String sql = "SELECT COUNT(*) FROM PASSAGEM WHERE rota_viagem = ? AND categoria = 'INDIVIDUAL'";
+        try(Connection conn = Conexao.conectar();
+            PreparedStatement stmt = conn.prepareStatement(sql)){
+            stmt.setInt(1, idRota);
+            ResultSet resultado = stmt.executeQuery();
+            if(resultado.next()) 
+                retorno -= resultado.getInt(1);
+        }
+        return retorno;
+    }
+    
+    public static int verificarDisponibilidadeColetiva(int idRota) throws SQLException{
+        int retorno = 0;
+ 
+        String barcoVinculado = verificarBarcoVinculado(idRota);
+        String lanchaVinculada = verificarLanchaVinculada(idRota);
+        
+        if(barcoVinculado != null){
+            retorno = BarcoDAO.getNCamarotes(barcoVinculado);
+        } else{
+            return 0;
+        }
+           
+        String sql = "SELECT COUNT(*) FROM PASSAGEM WHERE rota_viagem = ? AND categoria = 'COLETIVA'";
+        try(Connection conn = Conexao.conectar();
+            PreparedStatement stmt = conn.prepareStatement(sql)){
+            stmt.setInt(1, idRota);
+            ResultSet resultado = stmt.executeQuery();
+            if(resultado.next()) 
+                retorno -= resultado.getInt(1);
+        }
+        return retorno;
+    }
+    
+    public static String verificarBarcoVinculado(int idRota) throws SQLException{
+        String retorno = "";
+        String sql = "SELECT barcovinculado FROM RotaViagem WHERE id = ?";
+        try(Connection conn = Conexao.conectar();
+                PreparedStatement stmt = conn.prepareStatement(sql)){
+            stmt.setInt(1, idRota);
+            ResultSet resultado = stmt.executeQuery();
+            if(resultado.next())
+                retorno = resultado.getString(1);
+        }
+        return retorno;
+    }
+    
+    public static String verificarLanchaVinculada(int idRota) throws SQLException{
+        String retorno = "";
+        String sql = "SELECT lanchaVinculada FROM RotaViagem WHERE id = ?";
+        try(Connection conn = Conexao.conectar();
+                PreparedStatement stmt = conn.prepareStatement(sql)){
+            stmt.setInt(1, idRota);
+            ResultSet resultado = stmt.executeQuery();
+            if(resultado.next())
+                retorno = resultado.getString(1);
+        }
+        return retorno;
+    }
 }

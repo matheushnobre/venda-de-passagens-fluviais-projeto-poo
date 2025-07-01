@@ -51,7 +51,6 @@ public class TelaGerente extends javax.swing.JFrame {
         mi_visualizarLanchas = new javax.swing.JMenuItem();
         mn_viagem = new javax.swing.JMenu();
         mi_cadastrarViagem = new javax.swing.JMenuItem();
-        mi_visualizarViagens = new javax.swing.JMenuItem();
         mn_vender = new javax.swing.JMenu();
         mi_venderPassagem = new javax.swing.JMenuItem();
         mn_configuracoes = new javax.swing.JMenu();
@@ -182,10 +181,6 @@ public class TelaGerente extends javax.swing.JFrame {
             }
         });
         mn_viagem.add(mi_cadastrarViagem);
-
-        mi_visualizarViagens.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
-        mi_visualizarViagens.setText("Visualizar");
-        mn_viagem.add(mi_visualizarViagens);
 
         jMenuBar1.add(mn_viagem);
 
@@ -372,7 +367,6 @@ public class TelaGerente extends javax.swing.JFrame {
     private javax.swing.JMenuItem mi_visualizarBarcos;
     private javax.swing.JMenuItem mi_visualizarLanchas;
     private javax.swing.JMenuItem mi_visualizarVendedor;
-    private javax.swing.JMenuItem mi_visualizarViagens;
     private javax.swing.JMenu mn_configuracoes;
     private javax.swing.JMenu mn_embarcacao;
     private javax.swing.JMenu mn_vendedor;

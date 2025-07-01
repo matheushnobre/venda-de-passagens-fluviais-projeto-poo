@@ -141,4 +141,18 @@ public class LanchaDAO {
             e.printStackTrace();
         }
     }
+    
+    public static int getNPoltronas(String nome) throws SQLException{
+        String sql = "SELECT nPoltronas FROM lancha WHERE nome_embarcacao = ?";
+        try(Connection conn = Conexao.conectar()){
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, nome);
+            ResultSet resultado = stmt.executeQuery();
+            if(resultado.next()) 
+               return resultado.getInt(1);
+        } catch(SQLException e){
+            e.printStackTrace();
+        }
+        return -1;
+    }
 }

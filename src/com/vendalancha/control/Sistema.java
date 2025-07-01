@@ -3,6 +3,8 @@ package com.vendalancha.control;
 import com.vendalancha.dao.BarcoDAO;
 import com.vendalancha.dao.GerenteDAO;
 import com.vendalancha.dao.LanchaDAO;
+import com.vendalancha.dao.PassageiroDAO;
+import com.vendalancha.dao.PassagemDAO;
 import com.vendalancha.dao.RotaViagemDAO;
 import com.vendalancha.dao.VendedorDAO;
 import com.vendalancha.util.IconeUtil;
@@ -17,6 +19,8 @@ public class Sistema {
         BarcoDAO.criarTabelaSeNaoExistir();
         LanchaDAO.criarTabelaSeNaoExistir();
         RotaViagemDAO.criarTabelaSeNaoExistir();
+        PassageiroDAO.criarTabelaSeNaoExistir();
+        PassagemDAO.criarTabelaSeNaoExistir();
         
         if(GerenteDAO.existeGerente()){
             new TelaLogin().setVisible(true);
