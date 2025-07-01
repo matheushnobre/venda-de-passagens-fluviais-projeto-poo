@@ -6,8 +6,10 @@ package com.vendalancha.view;
 
 import com.vendalancha.control.RotaViagemController;
 import com.vendalancha.model.RotaViagem;
+import com.vendalancha.model.TipoPassagem;
 import com.vendalancha.util.ConversorData;
 import com.vendalancha.util.IconeUtil;
+import com.vendalancha.view.cadastro.TelaCadastrarPassageiro;
 import java.awt.Color;
 import java.awt.Font;
 import java.util.ArrayList;
@@ -50,9 +52,9 @@ public class TelaBuscaViagem extends javax.swing.JFrame {
         btn_pesquisar = new javax.swing.JButton();
         scroll = new javax.swing.JScrollPane();
         jt_tabelaViagens = new javax.swing.JTable();
-        jButton2 = new javax.swing.JButton();
+        btn_vender = new javax.swing.JButton();
         btn_cancelar = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        btn_gerarRelatorio = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setUndecorated(true);
@@ -164,9 +166,14 @@ public class TelaBuscaViagem extends javax.swing.JFrame {
 
         jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {tf_destino, tf_origem});
 
-        jButton2.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/vendalancha/imagens/ok24.png"))); // NOI18N
-        jButton2.setText("Vender Passagem");
+        btn_vender.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
+        btn_vender.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/vendalancha/imagens/ok24.png"))); // NOI18N
+        btn_vender.setText("Vender Passagem");
+        btn_vender.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_venderActionPerformed(evt);
+            }
+        });
 
         btn_cancelar.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
         btn_cancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/vendalancha/imagens/not-ok24.png"))); // NOI18N
@@ -177,9 +184,9 @@ public class TelaBuscaViagem extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/vendalancha/imagens/passagem24.png"))); // NOI18N
-        jButton1.setText("Gerar relatório");
+        btn_gerarRelatorio.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
+        btn_gerarRelatorio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/vendalancha/imagens/passagem24.png"))); // NOI18N
+        btn_gerarRelatorio.setText("Gerar relatório");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -195,9 +202,9 @@ public class TelaBuscaViagem extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(btn_cancelar)
                         .addGap(32, 32, 32)
-                        .addComponent(jButton1)
+                        .addComponent(btn_gerarRelatorio)
                         .addGap(38, 38, 38)
-                        .addComponent(jButton2)
+                        .addComponent(btn_vender)
                         .addGap(143, 143, 143))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -212,9 +219,9 @@ public class TelaBuscaViagem extends javax.swing.JFrame {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(28, 28, 28)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2)
+                    .addComponent(btn_vender)
                     .addComponent(btn_cancelar)
-                    .addComponent(jButton1))
+                    .addComponent(btn_gerarRelatorio))
                 .addContainerGap(47, Short.MAX_VALUE))
         );
 
@@ -262,6 +269,35 @@ public class TelaBuscaViagem extends javax.swing.JFrame {
         
     }//GEN-LAST:event_btn_pesquisarActionPerformed
 
+    private void btn_venderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_venderActionPerformed
+        // TODO add your handling code here:
+        int linha = jt_tabelaViagens.getSelectedRow();
+        if(linha < 0){
+            JOptionPane.showMessageDialog(rootPane, "Selecione uma rota de viagem.", "Erro: nenhuma viagem selecionada", JOptionPane.ERROR_MESSAGE, IconeUtil.getIconeErro());
+            return;
+        }
+        
+        int idViagem = Integer.parseInt(jt_tabelaViagens.getValueAt(linha, 0).toString());
+        
+        // verifica se a data da viagem já passou
+        if(RotaViagemController.viagemJaPassou(idViagem)){
+            JOptionPane.showMessageDialog(rootPane, "Você deve selecionar uma viagem que ainda não ocorreu.", "Erro: viagem já aconteceu", JOptionPane.ERROR_MESSAGE, IconeUtil.getIconeErro());
+            return;
+        }
+        
+        if(!RotaViagemController.possuiVagas(idViagem)) {
+            JOptionPane.showMessageDialog(rootPane, "Embarcação já está com capacidade máxima.", "Erro: vagas indisponíveis", JOptionPane.ERROR_MESSAGE, IconeUtil.getIconeErro());           
+            return;
+        }
+        
+        TipoPassagem tipo = verificarTipoPassagem(idViagem);
+        if(tipo == TipoPassagem.INDIVIDUAL){
+            new TelaCadastrarPassageiro(idViagem).setVisible(true);
+        } else if(tipo == TipoPassagem.COLETIVA){
+            System.out.println("coletiva");
+        }
+    }//GEN-LAST:event_btn_venderActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -299,9 +335,9 @@ public class TelaBuscaViagem extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_cancelar;
+    private javax.swing.JButton btn_gerarRelatorio;
     private javax.swing.JButton btn_pesquisar;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton btn_vender;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -349,5 +385,29 @@ public class TelaBuscaViagem extends javax.swing.JFrame {
             });
         }
         jt_tabelaViagens.setModel(modelo);
+    }
+    
+    public static TipoPassagem verificarTipoPassagem(int idViagem){
+        int ind = RotaViagemController.verificarDisponibilidadeIndividual(idViagem);
+        int col = RotaViagemController.verificarDisponibilidadeColetiva(idViagem);
+        
+        if(ind != 0 && col != 0){
+            String[] opcoes = {"Individual", "Coletiva"};
+            int selecionada = JOptionPane.showOptionDialog(null, "Selecione o tipo de passagem desejada: ", "Seleção de passagem", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, opcoes, opcoes[0]);
+            switch(selecionada){
+                case 0 -> {
+                    return TipoPassagem.INDIVIDUAL;
+                }
+                case 1 -> {
+                    return TipoPassagem.COLETIVA;
+                }
+            }
+        } else if(ind != 0){
+            return TipoPassagem.INDIVIDUAL;
+        } else if(col != 0){
+            return TipoPassagem.COLETIVA;
+        }
+        
+        return null;
     }
 }

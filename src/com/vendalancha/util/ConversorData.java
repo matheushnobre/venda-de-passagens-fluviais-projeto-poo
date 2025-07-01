@@ -6,6 +6,9 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 public class ConversorData {
+    public static LocalDateTime strParaLocalDateTime(String str_data){
+        return strParaLocalDateTime(str_data, "00:00");
+    }
     
     public static LocalDateTime strParaLocalDateTime(String str_data, String str_hora) {
         DateTimeFormatter formatterData = DateTimeFormatter.ofPattern("dd/MM/yyyy");

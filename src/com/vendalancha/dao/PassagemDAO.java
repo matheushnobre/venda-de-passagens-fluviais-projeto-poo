@@ -36,4 +36,14 @@ public class PassagemDAO {
             e.printStackTrace();
         }
     }
+    
+    public static void salvar(int idPassageiro, int idViagem) throws SQLException{
+        String sql = "INSERT INTO passagem(passageiro1, categoria, rota_viagem) VALUES (?, 'INDIVIDUAL', ?)";
+        try (Connection conn = Conexao.conectar();
+            PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, idPassageiro);
+            stmt.setInt(2, idViagem);
+            stmt.execute();
+        }
+    }
 }

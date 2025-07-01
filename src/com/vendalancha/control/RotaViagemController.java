@@ -113,4 +113,20 @@ public class RotaViagemController {
         }
         return retorno;
     }
+    
+    public static boolean viagemJaPassou(int idRota){
+        // verificar se a viagem foi antes da data atual
+        try{
+            String data = RotaViagemDAO.getDataViagem(idRota);
+            LocalDateTime ld_data = ConversorData.strDateTimeParaLocalDateTime(data);
+            return (ld_data.isBefore(LocalDateTime.now()));
+        } catch(SQLException e){
+            e.printStackTrace();
+        }
+        return true;
+    }
+    
+    public static boolean possuiVagas(int idRota){
+        return verificarDisponibilidadeIndividual(idRota) + verificarDisponibilidadeColetiva(idRota) != 0;
+    }
 }

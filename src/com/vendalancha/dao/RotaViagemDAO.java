@@ -179,4 +179,17 @@ public class RotaViagemDAO {
         }
         return retorno;
     }
+    
+    public static String getDataViagem(int idRota) throws SQLException{
+        String retorno = "";
+        String sql = "SELECT horario_partida FROM RotaViagem WHERE id = ?";
+        try(Connection conn = Conexao.conectar();
+                PreparedStatement stmt = conn.prepareStatement(sql)){
+            stmt.setInt(1, idRota);
+            ResultSet resultado = stmt.executeQuery();
+            if(resultado.next())
+                retorno = resultado.getString(1);
+        }
+        return retorno;
+    }
 }
