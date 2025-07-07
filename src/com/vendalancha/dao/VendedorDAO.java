@@ -108,6 +108,10 @@ public class VendedorDAO {
         update(usuario, "salario", valor);
     }
     
+    public static void updateSenha(String usuario, String valor) throws SQLException{
+        update(usuario, "senha", valor);
+    }
+    
     public static void update(String usuario, String campo, String valor) throws SQLException{
         String sql = "UPDATE vendedor SET " + campo + " = (?) WHERE nome_usuario = (?)";
         try(Connection conn = Conexao.conectar()){

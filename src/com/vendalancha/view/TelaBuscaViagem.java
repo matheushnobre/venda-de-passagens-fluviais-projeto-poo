@@ -5,11 +5,14 @@
 package com.vendalancha.view;
 
 import com.vendalancha.control.RotaViagemController;
+import com.vendalancha.dao.RotaViagemDAO;
+import com.vendalancha.model.Passagem;
 import com.vendalancha.model.RotaViagem;
 import com.vendalancha.model.TipoPassagem;
 import com.vendalancha.util.ConversorData;
 import com.vendalancha.util.IconeUtil;
 import com.vendalancha.view.cadastro.TelaCadastrarPassageiro;
+import com.vendalancha.view.cadastro.TelaCadastrarPassageiros;
 import java.awt.Color;
 import java.awt.Font;
 import java.util.ArrayList;
@@ -187,6 +190,11 @@ public class TelaBuscaViagem extends javax.swing.JFrame {
         btn_gerarRelatorio.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
         btn_gerarRelatorio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/vendalancha/imagens/passagem24.png"))); // NOI18N
         btn_gerarRelatorio.setText("Gerar relatório");
+        btn_gerarRelatorio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_gerarRelatorioActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -266,7 +274,6 @@ public class TelaBuscaViagem extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(rootPane, "Data deve estar no formato (dd/mm/aaaa) e deve ser uma data válida.", "Erro: data inválida", JOptionPane.ERROR_MESSAGE, IconeUtil.getIconeErro());
             }
         }
-        
     }//GEN-LAST:event_btn_pesquisarActionPerformed
 
     private void btn_venderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_venderActionPerformed
@@ -294,9 +301,35 @@ public class TelaBuscaViagem extends javax.swing.JFrame {
         if(tipo == TipoPassagem.INDIVIDUAL){
             new TelaCadastrarPassageiro(idViagem).setVisible(true);
         } else if(tipo == TipoPassagem.COLETIVA){
-            System.out.println("coletiva");
+            new TelaCadastrarPassageiros(idViagem).setVisible(true);
         }
+        
     }//GEN-LAST:event_btn_venderActionPerformed
+
+    private void btn_gerarRelatorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_gerarRelatorioActionPerformed
+        // TODO add your handling code here:
+        int linha = jt_tabelaViagens.getSelectedRow();
+        if(linha < 0){
+            JOptionPane.showMessageDialog(rootPane, "Selecione uma rota de viagem.", "Erro: nenhuma viagem selecionada", JOptionPane.ERROR_MESSAGE, IconeUtil.getIconeErro());
+            return;
+        }
+        
+        int idViagem = Integer.parseInt(jt_tabelaViagens.getValueAt(linha, 0).toString());
+        ArrayList<Passagem> passagens = RotaViagemDAO.gerarRelatorioPassagens(idViagem);
+        
+        if(passagens.isEmpty()){
+            JOptionPane.showMessageDialog(rootPane, "Nenhuma passagem vendida para esta rota", "Rota sem passagens vendidas", JOptionPane.ERROR_MESSAGE, IconeUtil.getIconeErro());
+            return;
+        }
+        
+        String origem = tf_origem.getText();
+        String destino = tf_destino.getText();
+        String embarcacao = jt_tabelaViagens.getValueAt(linha, 1).toString();
+        String data = tf_data.getText();
+        String horario = jt_tabelaViagens.getValueAt(linha, 2).toString();
+        //System.out.println(origem + " " + destino + " " + embarcacao + " " + data + " " + horario);
+        new TelaExibicaoPassagemRotas(origem, destino, embarcacao, data, horario, passagens).setVisible(true);
+    }//GEN-LAST:event_btn_gerarRelatorioActionPerformed
 
     /**
      * @param args the command line arguments

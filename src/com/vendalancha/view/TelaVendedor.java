@@ -4,17 +4,27 @@
  */
 package com.vendalancha.view;
 
+import com.vendalancha.control.VendedorController;
+import com.vendalancha.model.Vendedor;
+import com.vendalancha.util.IconeUtil;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author User
  */
 public class TelaVendedor extends javax.swing.JFrame {
 
+    private Vendedor vendedor;
     /**
      * Creates new form TelaVendedor
      */
-    public TelaVendedor() {
+    public TelaVendedor(Vendedor vendedor) {
         initComponents();
+        this.vendedor = vendedor;
+        setExtendedState(JFrame.MAXIMIZED_BOTH);  // utilizar a tela inteira
+
     }
 
     /**
@@ -26,21 +36,106 @@ public class TelaVendedor extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
+        jMenuItem3 = new javax.swing.JMenuItem();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jPanel1.setBackground(new java.awt.Color(176, 196, 222));
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 797, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 395, Short.MAX_VALUE)
+        );
+
+        jMenu1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/vendalancha/imagens/passagem32.png"))); // NOI18N
+        jMenu1.setText("Vender");
+        jMenu1.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
+
+        jMenuItem2.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
+        jMenuItem2.setText("Passagem");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem2);
+
+        jMenuBar1.add(jMenu1);
+
+        jMenu2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/vendalancha/imagens/admin32.png"))); // NOI18N
+        jMenu2.setText("Configurações");
+        jMenu2.setAlignmentX(1.0F);
+        jMenu2.setAlignmentY(0.7F);
+        jMenu2.setContentAreaFilled(false);
+        jMenu2.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
+
+        jMenuItem3.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
+        jMenuItem3.setText("Editar senha");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem3);
+
+        jMenuBar1.add(jMenu2);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        // TODO add your handling code here:
+        new TelaBuscaViagem().setVisible(true);
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        // TODO add your handling code here:
+        String senhaAtual = JOptionPane.showInputDialog(null, "Insira sua senha atual: ", "Alteração de senha", JOptionPane.QUESTION_MESSAGE);
+        if(senhaAtual == null) return;
+        String senhaNova = JOptionPane.showInputDialog(null, "Insira sua nova senha: ", "Alteração de senha", JOptionPane.QUESTION_MESSAGE);
+        if(senhaNova == null) return;
+        
+        int mensagem = VendedorController.alterarSenha(vendedor.getNomeUsuario(), senhaAtual, senhaNova);
+        switch(mensagem){
+            case 1 -> {
+               JOptionPane.showMessageDialog(rootPane, "Senha alterada com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE, IconeUtil.getIconeSucesso());
+            }
+            case 2-> {
+               JOptionPane.showMessageDialog(rootPane, "Senha atual incorreta.", "Erro", JOptionPane.INFORMATION_MESSAGE, IconeUtil.getIconeErro());
+            }
+            case 3 -> {
+               JOptionPane.showMessageDialog(rootPane, "Nova senha deve possuir pelo menos 6 caracteres.", "Erro", JOptionPane.INFORMATION_MESSAGE, IconeUtil.getIconeErro());
+            }
+            case 4 -> {
+               JOptionPane.showMessageDialog(rootPane, "Um erro inesperado aconteceu.", "Erro", JOptionPane.INFORMATION_MESSAGE, IconeUtil.getIconeErro());
+            }
+        }
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -72,11 +167,18 @@ public class TelaVendedor extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new TelaVendedor().setVisible(true);
+                new TelaVendedor(new Vendedor("", "", 0)).setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }
+

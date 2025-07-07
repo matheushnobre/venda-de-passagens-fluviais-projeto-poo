@@ -77,4 +77,18 @@ public class GerenteDAO {
         }
         return null;
     }
+    
+    public static void updateSenha(String usuario, String valor) throws SQLException{
+        update(usuario, "senha", valor);
+    }
+    
+    public static void update(String usuario, String campo, String valor) throws SQLException{
+        String sql = "UPDATE gerente SET " + campo + " = (?) WHERE nome_usuario = (?)";
+        try(Connection conn = Conexao.conectar()){
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, valor);
+            stmt.setString(2, usuario);
+            stmt.executeUpdate();
+        }
+    }
 }

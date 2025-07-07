@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.ResultSet;
+import java.time.LocalDateTime;
 
 public class PassageiroDAO {
     public static void deletarTabela(){
@@ -50,5 +51,30 @@ public class PassageiroDAO {
         } 
         
         return -1;
+    }
+    
+    public static Passageiro buscarPorId(int id) {
+        String sql = "SELECT * FROM passageiro WHERE id = ?";
+    
+        try (Connection conn = Conexao.conectar();
+            PreparedStatement stmt = conn.prepareStatement(sql)) {
+        
+            stmt.setInt(1, id);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    String nome = rs.getString("nome");
+                    String cpf = rs.getString("cpf");
+                    String dataStr = rs.getString("data_nascimento");
+
+                    LocalDateTime data = ConversorData.strDateTimeParaLocalDateTime(dataStr);
+
+                    return new Passageiro(nome, data, cpf);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 }

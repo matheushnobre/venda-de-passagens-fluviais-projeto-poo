@@ -1,27 +1,27 @@
 package com.vendalancha.model;
 
 public class Passagem {
-    private Passageiro passegeiroN1;
+    private Passageiro passageiroN1;
     private Passageiro passageiroN2;
     private Passageiro passageiroN3;
     private TipoPassagem tipoPassagem;
     private RotaViagem rota;
 
     public Passagem(Passageiro passegeiroN1, TipoPassagem tipoPassagem, RotaViagem rota) {
-        this.passegeiroN1 = passegeiroN1;
+        this.passageiroN1 = passegeiroN1;
         this.tipoPassagem = tipoPassagem;
         this.rota = rota;
     }
 
     public Passagem(Passageiro passegeiroN1, Passageiro passageiroN2, RotaViagem rota) {
-        this.passegeiroN1 = passegeiroN1;
+        this.passageiroN1 = passegeiroN1;
         this.passageiroN2 = passageiroN2;
         this.tipoPassagem = TipoPassagem.COLETIVA;
         this.rota = rota;
     }
 
     public Passagem(Passageiro passegeiroN1, Passageiro passageiroN2, Passageiro passageiroN3, RotaViagem rota) {
-        this.passegeiroN1 = passegeiroN1;
+        this.passageiroN1 = passegeiroN1;
         this.passageiroN2 = passageiroN2;
         this.passageiroN3 = passageiroN3;
         this.tipoPassagem = TipoPassagem.COLETIVA;
@@ -29,11 +29,11 @@ public class Passagem {
     }
 
     public Passageiro getPassegeiroN1() {
-        return passegeiroN1;
+        return passageiroN1;
     }
 
     public void setPassegeiroN1(Passageiro passegeiroN1) {
-        this.passegeiroN1 = passegeiroN1;
+        this.passageiroN1 = passegeiroN1;
     }
 
     public Passageiro getPassageiroN2() {

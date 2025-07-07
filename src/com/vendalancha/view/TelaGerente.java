@@ -4,12 +4,15 @@
  */
 package com.vendalancha.view;
 
+import com.vendalancha.control.GerenteController;
 import com.vendalancha.view.cadastro.TelaCadastroVendedor;
 import com.vendalancha.model.Gerente;
+import com.vendalancha.util.IconeUtil;
 import com.vendalancha.view.cadastro.TelaCadastroBarco;
 import com.vendalancha.view.cadastro.TelaCadastroLancha;
 import com.vendalancha.view.cadastro.TelaCadastroViagem;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -54,10 +57,7 @@ public class TelaGerente extends javax.swing.JFrame {
         mn_vender = new javax.swing.JMenu();
         mi_venderPassagem = new javax.swing.JMenuItem();
         mn_configuracoes = new javax.swing.JMenu();
-        mi_alterarUser = new javax.swing.JMenuItem();
         mi_alterarSenha = new javax.swing.JMenuItem();
-        mn_voltar = new javax.swing.JMenu();
-        mi_login = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -211,10 +211,6 @@ public class TelaGerente extends javax.swing.JFrame {
         mn_configuracoes.setIconTextGap(10);
         mn_configuracoes.setMargin(new java.awt.Insets(10, 8, 10, 8));
 
-        mi_alterarUser.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
-        mi_alterarUser.setText("Alterar Nome de Usuário");
-        mn_configuracoes.add(mi_alterarUser);
-
         mi_alterarSenha.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
         mi_alterarSenha.setText("Alterar Senha");
         mi_alterarSenha.addActionListener(new java.awt.event.ActionListener() {
@@ -225,25 +221,6 @@ public class TelaGerente extends javax.swing.JFrame {
         mn_configuracoes.add(mi_alterarSenha);
 
         jMenuBar1.add(mn_configuracoes);
-
-        mn_voltar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/vendalancha/imagens/voltar32.png"))); // NOI18N
-        mn_voltar.setText("Voltar");
-        mn_voltar.setAlignmentX(1.0F);
-        mn_voltar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        mn_voltar.setFont(new java.awt.Font("Comic Sans MS", 0, 16)); // NOI18N
-        mn_voltar.setIconTextGap(10);
-        mn_voltar.setMargin(new java.awt.Insets(10, 8, 10, 8));
-
-        mi_login.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
-        mi_login.setText("Página Login");
-        mi_login.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mi_loginActionPerformed(evt);
-            }
-        });
-        mn_voltar.add(mi_login);
-
-        jMenuBar1.add(mn_voltar);
 
         setJMenuBar(jMenuBar1);
 
@@ -263,19 +240,33 @@ public class TelaGerente extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void mi_alterarSenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_alterarSenhaActionPerformed
-        // TODO add your handling code here:        
+        // TODO add your handling code here: 
+        String senhaAtual = JOptionPane.showInputDialog(null, "Insira sua senha atual: ", "Alteração de senha", JOptionPane.QUESTION_MESSAGE);
+        if(senhaAtual == null) return;
+        String senhaNova = JOptionPane.showInputDialog(null, "Insira sua nova senha: ", "Alteração de senha", JOptionPane.QUESTION_MESSAGE);
+        if(senhaNova == null) return;
+        
+        int mensagem = GerenteController.alterarSenha(gerente.getNomeUsuario(), senhaAtual, senhaNova);
+        switch(mensagem){
+            case 1 -> {
+               JOptionPane.showMessageDialog(rootPane, "Senha alterada com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE, IconeUtil.getIconeSucesso());
+            }
+            case 2-> {
+               JOptionPane.showMessageDialog(rootPane, "Senha atual incorreta.", "Erro", JOptionPane.INFORMATION_MESSAGE, IconeUtil.getIconeErro());
+            }
+            case 3 -> {
+               JOptionPane.showMessageDialog(rootPane, "Nova senha deve possuir pelo menos 6 caracteres.", "Erro", JOptionPane.INFORMATION_MESSAGE, IconeUtil.getIconeErro());
+            }
+            case 4 -> {
+               JOptionPane.showMessageDialog(rootPane, "Um erro inesperado aconteceu.", "Erro", JOptionPane.INFORMATION_MESSAGE, IconeUtil.getIconeErro());
+            }
+        }
     }//GEN-LAST:event_mi_alterarSenhaActionPerformed
 
     private void mi_cadastrarVendedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_cadastrarVendedorActionPerformed
         // TODO add your handling code here:
         new TelaCadastroVendedor().setVisible(true);
     }//GEN-LAST:event_mi_cadastrarVendedorActionPerformed
-
-    private void mi_loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_loginActionPerformed
-        // TODO add your handling code here:
-        new TelaLogin().setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_mi_loginActionPerformed
 
     private void mi_visualizarVendedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_visualizarVendedorActionPerformed
         // TODO add your handling code here:
@@ -357,12 +348,10 @@ public class TelaGerente extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel label_nomeGerente;
     private javax.swing.JMenuItem mi_alterarSenha;
-    private javax.swing.JMenuItem mi_alterarUser;
     private javax.swing.JMenuItem mi_cadastrarBarco;
     private javax.swing.JMenuItem mi_cadastrarLancha;
     private javax.swing.JMenuItem mi_cadastrarVendedor;
     private javax.swing.JMenuItem mi_cadastrarViagem;
-    private javax.swing.JMenuItem mi_login;
     private javax.swing.JMenuItem mi_venderPassagem;
     private javax.swing.JMenuItem mi_visualizarBarcos;
     private javax.swing.JMenuItem mi_visualizarLanchas;
@@ -372,6 +361,5 @@ public class TelaGerente extends javax.swing.JFrame {
     private javax.swing.JMenu mn_vendedor;
     private javax.swing.JMenu mn_vender;
     private javax.swing.JMenu mn_viagem;
-    private javax.swing.JMenu mn_voltar;
     // End of variables declaration//GEN-END:variables
 }

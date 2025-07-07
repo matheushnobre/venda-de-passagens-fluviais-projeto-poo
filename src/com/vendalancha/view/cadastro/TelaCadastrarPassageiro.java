@@ -6,6 +6,7 @@ package com.vendalancha.view.cadastro;
 
 import com.vendalancha.control.PassagemController;
 import com.vendalancha.util.IconeUtil;
+import com.vendalancha.util.ParInteiros;
 import javax.swing.JOptionPane;
 
 /**
@@ -178,11 +179,13 @@ public class TelaCadastrarPassageiro extends javax.swing.JFrame {
         String cpf = tf_cpf.getText();
         String data = tf_data.getText();
         
-        int mensagem = PassagemController.venderPassagemIndividual(nome, cpf, data, idViagem);
+        ParInteiros retorno = PassagemController.venderPassagemIndividual(nome, cpf, data, idViagem);
+        int mensagem = retorno.first;
+        
         switch(mensagem){
             case 1->{
-               JOptionPane.showMessageDialog(rootPane, "Venda realizada com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE, IconeUtil.getIconeSucesso());
-               this.dispose();
+                JOptionPane.showMessageDialog(rootPane, "Venda realizada com sucesso! Passagem #"+retorno.second, "Sucesso", JOptionPane.INFORMATION_MESSAGE, IconeUtil.getIconeSucesso());
+                this.dispose();
             }
             case 2 -> {
                 JOptionPane.showMessageDialog(rootPane, "Por favor, preencha todos os campos.", "Erro: campos incompletos", JOptionPane.INFORMATION_MESSAGE, IconeUtil.getIconeErro());

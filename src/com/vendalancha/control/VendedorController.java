@@ -4,6 +4,7 @@ import com.vendalancha.dao.GerenteDAO;
 import com.vendalancha.dao.VendedorDAO;
 import com.vendalancha.model.Vendedor;
 import com.vendalancha.util.validacao.ValidacaoEntrada;
+import com.vendalancha.util.validacao.ValidacaoSenha;
 import java.sql.SQLException;
 
 public class VendedorController {
@@ -76,6 +77,28 @@ public class VendedorController {
             return 4;
         }
         
+        return 1;
+    }
+    
+    public static int alterarSenha(String usuario, String senhaAtual, String senhaNova){
+        /*
+        Códigos de retorno
+        1 - sucesso
+        2 - senha atual incorreta
+        3 - senha nova inválida
+        4 - erro inesperado
+        */
+        
+        Vendedor vendedor = VendedorDAO.buscarVendedor(usuario);
+        if(!vendedor.getSenha().equals(senhaAtual)) return 2;
+        if(!ValidacaoSenha.validarSenha(senhaNova)) return 3;
+        
+        try{
+            VendedorDAO.updateSenha(usuario, senhaNova);
+        } catch(SQLException e){
+            e.printStackTrace();
+            return 4;
+        }
         return 1;
     }
     

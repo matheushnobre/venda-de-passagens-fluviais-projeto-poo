@@ -4,7 +4,7 @@ public abstract class Usuario {
     private String nomeCompleto;
     private String nomeUsuario;
     private String senha;
-    
+        
     public Usuario(String nomeCompleto, String nomeUsuario, String senha){
         this.nomeCompleto = nomeCompleto;
         this.nomeUsuario = nomeUsuario;

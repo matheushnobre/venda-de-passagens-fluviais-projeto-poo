@@ -7,6 +7,7 @@ package com.vendalancha.view;
 import com.vendalancha.control.LoginController;
 import com.vendalancha.model.Gerente;
 import com.vendalancha.model.Usuario;
+import com.vendalancha.model.Vendedor;
 import com.vendalancha.util.IconeUtil;
 import com.vendalancha.util.validacao.ValidacaoEntrada;
 import javax.swing.JOptionPane;
@@ -266,7 +267,7 @@ public class TelaLogin extends javax.swing.JFrame {
         if(user instanceof Gerente){
             new TelaGerente((Gerente) user).setVisible(true);
         } else{
-            new TelaVendedor().setVisible(true);
+            new TelaVendedor((Vendedor) user).setVisible(true);
         }
     }
 }

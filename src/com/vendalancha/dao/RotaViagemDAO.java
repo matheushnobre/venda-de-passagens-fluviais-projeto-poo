@@ -4,7 +4,10 @@ import com.vendalancha.db.Conexao;
 import com.vendalancha.model.Barco;
 import com.vendalancha.model.Embarcacao;
 import com.vendalancha.model.Lancha;
+import com.vendalancha.model.Passageiro;
+import com.vendalancha.model.Passagem;
 import com.vendalancha.model.RotaViagem;
+import com.vendalancha.model.TipoPassagem;
 import com.vendalancha.util.ConversorData;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -192,4 +195,88 @@ public class RotaViagemDAO {
         }
         return retorno;
     }
+    
+    public static ArrayList<Passagem> gerarRelatorioPassagens(int idRotaViagem) {
+        ArrayList<Passagem> lista = new ArrayList<>();
+        String sql = "SELECT * FROM passagem WHERE rota_viagem = ?";
+
+        try (Connection conn = Conexao.conectar();
+            PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, idRotaViagem);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    int idP1 = rs.getInt("passageiro1");
+                    int idP2 = rs.getInt("passageiro2");
+                    int idP3 = rs.getInt("passageiro3");
+                    String categoria = rs.getString("categoria");
+
+                    Passageiro p1 = PassageiroDAO.buscarPorId(idP1);
+                    Passageiro p2 = (rs.wasNull() || idP2 == 0) ? null : PassageiroDAO.buscarPorId(idP2);
+                    Passageiro p3 = (rs.wasNull() || idP3 == 0) ? null : PassageiroDAO.buscarPorId(idP3);
+
+                    RotaViagem rota = RotaViagemDAO.buscarPorId(idRotaViagem);
+
+                    Passagem passagem;
+                    if ("INDIVIDUAL".equalsIgnoreCase(categoria)) {
+                        passagem = new Passagem(p1, TipoPassagem.INDIVIDUAL, rota);
+                    } else {
+                        if (p2 != null && p3 != null) {
+                            passagem = new Passagem(p1, p2, p3, rota);
+                        } else if (p2 != null) {
+                            passagem = new Passagem(p1, p2, rota);
+                        } else {
+                            passagem = new Passagem(p1, TipoPassagem.COLETIVA, rota);
+                        }
+                    }
+
+                    lista.add(passagem);
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return lista;
+    }
+    
+    public static RotaViagem buscarPorId(int id) {
+        String sql = "SELECT * FROM RotaViagem WHERE id = ?";
+    
+        try (Connection conn = Conexao.conectar();
+            PreparedStatement stmt = conn.prepareStatement(sql)) {
+        
+            stmt.setInt(1, id);
+            ResultSet resultado = stmt.executeQuery();
+        
+            if (resultado.next()) {
+                String cidade_origem = resultado.getString("cidade_origem");
+                String cidade_destino = resultado.getString("cidade_destino");
+                LocalDateTime horarioPartida = ConversorData.strDateTimeParaLocalDateTime(resultado.getString("horario_partida"));
+                int duracaoMinutos = resultado.getInt("duracaoMinutos");
+
+                String nomeBarco = resultado.getString("barcoVinculado");
+                String nomeLancha = resultado.getString("lanchaVinculada");
+
+                Embarcacao embarcacao = null;
+                if (nomeBarco != null && !nomeBarco.isEmpty()) {
+                    embarcacao = BarcoDAO.buscarBarco(nomeBarco);
+                } else if (nomeLancha != null && !nomeLancha.isEmpty()) {
+                    embarcacao = LanchaDAO.buscarLancha(nomeLancha);
+                }
+
+                double precoIndividual = resultado.getDouble("precoAcomodacaoIndividual");
+                double precoColetiva = resultado.getDouble("precoAcomodacaoColetiva");
+
+                return new RotaViagem(id, cidade_origem, cidade_destino, horarioPartida, duracaoMinutos, embarcacao, precoIndividual, precoColetiva);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
 }
